@@ -15,6 +15,11 @@ tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 PWD=$(dirname -- "$(readlink -f -- "$0")")
 TART="/Applications/tart.app/Contents/MacOS/tart"
 
+if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
+	echo "ERROR: The maximum supported number of active virtual machines has been reached."
+    exit 127
+fi
+
 $TART clone "${tart_source}" "${tart_name}"
 $TART set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
 
