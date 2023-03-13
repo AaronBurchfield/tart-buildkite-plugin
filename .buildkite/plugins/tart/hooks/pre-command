@@ -29,7 +29,7 @@ $TART set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
     "${tart_name}" \
     &
 
-sleep 10
+sleep 20
 
 guest_ip=$($TART ip "${tart_name}")
 
