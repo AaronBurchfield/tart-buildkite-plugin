@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+# default_tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
+
+# export BUILDKITE_PLUGIN_TART_IMAGE=
+# export BUILDKITE_PLUGIN_TART_CPUS=
+# export BUILDKITE_PLUGIN_TART_MEMORY=
+# export BUILDKITE_PLUGIN_TART_USER=
+# export BUILDKITE_PLUGIN_TART_PASSWORD=
+export BUILDKITE_JOB_ID="zzzz"
+
+./hooks/pre-command
+./hooks/command
+./hooks/pre-exit

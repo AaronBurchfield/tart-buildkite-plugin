@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
+tart_cpus=2
+tart_memory=4096
+tart_user=admin
+tart_password=admin
+tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
+command="${BUILDKITE_COMMAND:-sw_vers}"
+
+
+PWD=$(dirname -- "$(readlink -f -- "$0")")
+TART="/Applications/tart.app/Contents/MacOS/tart"
+workspace="/Volumes/My Shared Files/workspace"
+
+guest_ip=$($TART ip "${tart_name}")
+
+ssh \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null \
+    -o ConnectTimeout=5s \
+    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
+    "${tart_user}@${guest_ip}" \
+    "pushd \"${workspace}\" && ${command}; popd"

@@ -1,0 +1,21 @@
+name : Tart
+description: Run builds in tart virtual machines
+author: https://github.com/aaronburchfield
+requirements:
+  - expect
+  - ssh
+  - ssh-copy-id
+  - ssh-kegen
+  - tart
+configuration:
+  properties:
+    image:
+      type: string
+    cpus:
+      type: integer
+    memory:
+      type: integer
+  required:
+    - image
+
+  additionalProperties: false

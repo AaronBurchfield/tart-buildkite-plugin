@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+default_tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
+
+tart_source="${BUILDKITE_PLUGIN_TART_IMAGE:-$default_tart_source}"
+tart_cpus="${BUILDKITE_PLUGIN_TART_CPUS:-2}"
+tart_memory="${BUILDKITE_PLUGIN_TART_MEMORY:-4096}"
+tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
+tart_password="${BUILDKITE_PLUGIN_TART_PASSWORD:-admin}"
+tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
+
+
+PWD=$(dirname -- "$(readlink -f -- "$0")")
+TART="/Applications/tart.app/Contents/MacOS/tart"
+
+$TART clone "${tart_source}" "${tart_name}"
+$TART set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
+
+/usr/bin/nohup $TART run \
+    --no-graphics \
+    --dir=workspace:"${PWD}" \
+    "${tart_name}" \
+    &
+
+sleep 10
+
+guest_ip=$($TART ip "${tart_name}")
+
+ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" >/dev/null
+"${PWD}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
+
+sleep 3
+
+ssh \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null \
+    -o ConnectTimeout=5s \
+    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
+    "${tart_user}@${guest_ip}" \
+    "sw_vers"
