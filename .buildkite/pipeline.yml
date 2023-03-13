@@ -1,8 +1,9 @@
+agents:
+  tart: "true"
+  queue: "mac"
+
 steps:
   - label: ":wave:"
-    agents:
-      tart: "true"
-      queue: "mac"
     command: "pwd && ls && uptime && whoami"
     plugins:
       - ./.buildkite/plugins/tart:
