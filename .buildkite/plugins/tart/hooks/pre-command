@@ -28,7 +28,7 @@ sleep 10
 
 guest_ip=$($TART ip "${tart_name}")
 
-ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" >/dev/null
+ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" -q
 "${PWD}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
 
 sleep 3

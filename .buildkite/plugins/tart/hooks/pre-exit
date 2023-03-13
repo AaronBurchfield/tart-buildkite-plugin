@@ -7,9 +7,9 @@ tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 TART="/Applications/tart.app/Contents/MacOS/tart"
 
 if [[ "${BUILDKITE_PLUGIN_TART_CLEANUP:-true}" =~ ^(true|on|1)$ ]]; then
-    for guest in $($TART list --format text --source local --quiet | grep "${tart_name}"); do
-        echo "Cleaning up ${guest}"
-        $TART stop "${guest}" || true
-        $TART delete "${guest}" || true
-    done
+    echo "Removing ${tart_name}"
+    $TART delete "${tart_name}" || true
+else
+    echo "Stopping ${tart_name}"
+    $TART stop "${tart_name}" || true
 fi
