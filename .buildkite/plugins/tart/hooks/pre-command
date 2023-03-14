@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
     set -euxo pipefail
 fi
@@ -36,9 +34,7 @@ nohup $TART run \
     >/dev/null 2>/dev/null \
     &
 
-sleep 10
-
-guest_ip=$($TART ip "${tart_name}")
+for i in {1..5}; do guest_ip=$($TART ip "${tart_name}") && break || sleep 5; done
 
 ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" -q
 
