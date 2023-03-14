@@ -3,7 +3,7 @@ steps:
     agents:
       tart: "true"
       queue: "mac"
-    parallelism: 50
+    parallelism: 5
     command: "pwd && ls -la && uptime && whoami"
     plugins:
       - ./.buildkite/plugins/tart:
