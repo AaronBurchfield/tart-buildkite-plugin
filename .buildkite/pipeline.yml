@@ -1,8 +1,8 @@
-agents:
-  tart: "true"
-
 steps:
   - label: ":wave:"
+    agents:
+      tart: "true"
+      queue: "mac"
     parallelism: 50
     command: "pwd && ls -la && uptime && whoami"
     plugins:
