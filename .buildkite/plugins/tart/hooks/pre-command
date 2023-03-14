@@ -18,10 +18,10 @@ checkout_path="${BUILDKITE_BUILD_CHECKOUT_PATH:-}"
 
 TART="/Applications/tart.app/Contents/MacOS/tart"
 
-# if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
-#     echo "ERROR: The maximum supported number of active virtual machines has been reached."
-#     exit 127
-# fi
+if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
+    echo "ERROR: The maximum supported number of active virtual machines has been reached."
+    exit 127
+fi
 
 $TART clone "${tart_source}" "${tart_name}"
 $TART set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
@@ -34,7 +34,7 @@ nohup $TART run \
     >/dev/null 2>/dev/null \
     &
 
-for i in {1..5}; do guest_ip=$($TART ip "${tart_name}") && break || sleep 5; done
+for i in {1..10}; do guest_ip=$($TART ip "${tart_name}") && break || sleep 5; done
 
 ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" -q
 
