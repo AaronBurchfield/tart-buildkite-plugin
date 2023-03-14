@@ -3,7 +3,7 @@ agents:
 
 steps:
   - label: ":wave:"
-    parallelism: 20
+    parallelism: 50
     command: "pwd && ls -la && uptime && whoami"
     plugins:
       - ./.buildkite/plugins/tart:
