@@ -30,6 +30,7 @@ nohup $TART run \
     --no-graphics \
     --dir=workspace:"${checkout_path}" \
     "${tart_name}" \
+    >/dev/null 2>/dev/null \
     &
 
 sleep 10
