@@ -11,12 +11,16 @@ configuration:
   properties:
     image:
       type: string
+      description: "The name of the image to clone tart virtual machine from"
     cpus:
       type: integer
+      description: "The number of cpus configured on the tart virtual machine"
     memory:
       type: integer
+      description: "The amount of memory configured on the tart virtual machine"
     debug:
       type: string
+      description: "Enable command output from tart plugin"
   required:
     - image
 
