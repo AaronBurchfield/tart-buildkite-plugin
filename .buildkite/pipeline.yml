@@ -2,10 +2,11 @@ agents:
   tart: "true"
 
 steps:
-  - label: ":wave: (%N/%t)"
+  - label: ":wave: (%N)"
     parallelism: 10
     command: "pwd && ls -la && uptime && whoami"
     plugins:
       - ./.buildkite/plugins/tart:
           image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
+          debug: true
   
