@@ -70,3 +70,5 @@ expect {
 }
 EOF
 ) ${guest_ip} ${tart_user} ${tart_password} "${esdsa_key_path}" >/dev/null 2>/dev/null
+
+echo "Created ${tart_name} from image: ${tart_source}"
