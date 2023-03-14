@@ -70,8 +70,6 @@ expect {
 EOF
 ) ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
 
-# "${script_root}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
-
 sleep 5
 
 ssh \
@@ -81,3 +79,11 @@ ssh \
     -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
     "${tart_user}@${guest_ip}" \
     "sw_vers"
+
+ssh \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null \
+    -o ConnectTimeout=5s \
+    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
+    "${tart_user}@${guest_ip}" \
+    "pushd \"${workspace}\" && ${command}; popd"
