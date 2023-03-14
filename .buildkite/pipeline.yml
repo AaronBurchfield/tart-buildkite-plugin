@@ -3,7 +3,7 @@ agents:
 
 steps:
   - label: ":wave:"
-    command: "pwd && ls && uptime && whoami"
+    command: "pwd && ls -la && uptime && whoami"
     plugins:
       - ./.buildkite/plugins/tart:
           image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
