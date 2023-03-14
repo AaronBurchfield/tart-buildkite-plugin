@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+# export BUILDKITE_PLUGIN_TART_IMAGE=
+# export BUILDKITE_PLUGIN_TART_CPUS=
+# export BUILDKITE_PLUGIN_TART_MEMORY=
+# export BUILDKITE_PLUGIN_TART_USER=
+# export BUILDKITE_PLUGIN_TART_PASSWORD=
+# export BUILDKITE_PLUGIN_TART_DEBUG=
+
+# export BUILDKITE_JOB_ID=
+# export BUILDKITE_COMMAND=
+
+./hooks/pre-command
+./hooks/command
+./hooks/pre-exit
