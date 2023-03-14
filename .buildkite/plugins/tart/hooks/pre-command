@@ -37,8 +37,7 @@ nohup tart run \
     &
 
 # Wait for the guest to boot then grab the address
-sleep 5
-for i in {1..10}; do guest_ip=$(tart ip ${tart_name}) && break || sleep 5; done
+for i in {1..60}; do guest_ip=$(tart ip ${tart_name}) && break || sleep 1; done
 
 # Generate and install an ssh key for running commands later
 ssh-keygen -f "${esdsa_key_path}" -t ecdsa -b 521 -P "" -q
