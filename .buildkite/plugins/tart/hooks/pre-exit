@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if [[ "${BUILDKITE_PLUGIN_TART_CLEANUP:-false}" =~ ^(true|on|1)$ ]]; then
-    set -euxo pipefail
+set -euo pipefail
+
+if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
+    set -x
 fi
 
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+set -euo pipefail
+
 if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
-    set -euxo pipefail
+    set -x
 fi
 
 default_tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
