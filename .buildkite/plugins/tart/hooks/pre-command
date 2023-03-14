@@ -79,11 +79,3 @@ ssh \
     -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
     "${tart_user}@${guest_ip}" \
     "sw_vers"
-
-ssh \
-    -o StrictHostKeyChecking=no \
-    -o UserKnownHostsFile=/dev/null \
-    -o ConnectTimeout=5s \
-    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
-    "${tart_user}@${guest_ip}" \
-    "pushd \"${workspace}\" && ${command}; popd"
