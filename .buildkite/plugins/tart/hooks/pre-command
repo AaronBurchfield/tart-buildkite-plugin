@@ -68,14 +68,3 @@ expect {
 }
 EOF
 ) ${guest_ip} ${tart_user} ${tart_password} "${esdsa_key_path}" >/dev/null 2>/dev/null
-
-sleep 5
-
-ssh \
-    -q \
-    -o StrictHostKeyChecking=no \
-    -o UserKnownHostsFile=/dev/null \
-    -o ConnectTimeout=5s \
-    -i "${esdsa_key_path}" \
-    "${tart_user}@${guest_ip}" \
-    "sw_vers"
