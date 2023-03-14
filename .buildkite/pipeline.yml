@@ -6,3 +6,10 @@ steps:
           image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
     agents:
       tart: "true"
+  - label: ":wave:"
+    command: "pwd && ls -la && uptime && whoami"
+    plugins:
+      - ./.buildkite/plugins/tart:
+          image: "ghcr.io/cirruslabs/macos-monterey-base:latest"
+    agents:
+      tart: "true"
