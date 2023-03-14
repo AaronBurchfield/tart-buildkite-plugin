@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -e
 
 if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
     set -euxo pipefail
