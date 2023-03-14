@@ -24,7 +24,7 @@ fi
 tart clone "${tart_source}" "${tart_name}"
 tart set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
 
-nohup tart run \
+nohup sudo tart run \
     --no-graphics \
     --net-softnet \
     --dir=workspace:"${checkout_path}" \
