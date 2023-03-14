@@ -15,15 +15,17 @@ tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 checkout_path="${BUILDKITE_BUILD_CHECKOUT_PATH:-}"
 esdsa_key_path="$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa"
 
-
+# Apple forbids more than two concurrent instances of macos and enforces this in the virtualization framework
 if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
     echo "ERROR: The maximum supported number of active virtual machines has been reached."
     exit 127
 fi
 
+# Create our guest and configure cpu and memory
 tart clone "${tart_source}" "${tart_name}"
 tart set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
 
+# Start the guest and fork the process to prevent it being killed when this script exits
 nohup tart run \
     --no-graphics \
     --net-softnet \
@@ -32,12 +34,12 @@ nohup tart run \
     >/dev/null 2>/dev/null \
     &
 
+# Wait for the guest to boot then grab the address
 sleep 5
-
 for i in {1..10}; do guest_ip=$(tart ip ${tart_name}) && break || sleep 5; done
 
+# Generate and install an ssh key for running commands later
 ssh-keygen -f "${esdsa_key_path}" -t ecdsa -b 521 -P "" -q
-
 expect -f <(cat << "EOF"
 
 lassign $argv ip user password keypath

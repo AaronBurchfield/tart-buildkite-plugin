@@ -8,10 +8,13 @@ tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 command="${BUILDKITE_COMMAND:-sw_vers}"
 
+# Default path for automatic mounts
 workspace="/Volumes/My Shared Files/workspace"
 
+# Find the address of our guest
 guest_ip=$(tart ip "${tart_name}")
 
+# Execute build step command over ssh
 ssh \
     -q \
     -o StrictHostKeyChecking=no \

@@ -6,6 +6,7 @@ fi
 
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 
+# Clean up the guest, or leave it around for troubleshooting
 if [[ "${BUILDKITE_PLUGIN_TART_CLEANUP:-true}" =~ ^(true|on|1)$ ]]; then
     echo "Removing ${tart_name}"
     tart stop "${tart_name}" || true
