@@ -15,6 +15,7 @@ workspace="/Volumes/My Shared Files/workspace"
 guest_ip=$($TART ip "${tart_name}")
 
 ssh \
+    -q \
     -o StrictHostKeyChecking=no \
     -o UserKnownHostsFile=/dev/null \
     -o ConnectTimeout=5s \

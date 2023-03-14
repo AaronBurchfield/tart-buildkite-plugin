@@ -72,6 +72,7 @@ EOF
 sleep 5
 
 ssh \
+    -q \
     -o StrictHostKeyChecking=no \
     -o UserKnownHostsFile=/dev/null \
     -o ConnectTimeout=5s \
