@@ -1,6 +1,3 @@
-agents:
-  tart: "true"
-
 steps:
   - label: ":wave:"
     command: "pwd && ls -la && uptime && whoami"
