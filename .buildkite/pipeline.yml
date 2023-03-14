@@ -8,5 +8,6 @@ steps:
     plugins:
       - ./.buildkite/plugins/tart:
           image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
+          cpus: 4
           debug: true
   
