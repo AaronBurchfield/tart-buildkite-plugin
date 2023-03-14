@@ -12,9 +12,8 @@ tart_memory="${BUILDKITE_PLUGIN_TART_MEMORY:-4096}"
 tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
 tart_password="${BUILDKITE_PLUGIN_TART_PASSWORD:-admin}"
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
-
-script_root=$(dirname -- "$(readlink -f -- "$0")")
 checkout_path="${BUILDKITE_BUILD_CHECKOUT_PATH:-}"
+esdsa_key_path="$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa"
 
 TART="/Applications/tart.app/Contents/MacOS/tart"
 
@@ -30,13 +29,15 @@ nohup $TART run \
     --no-graphics \
     --net-softnet \
     --dir=workspace:"${checkout_path}" \
-    "${tart_name}" \
+    ${tart_name} \
     >/dev/null 2>/dev/null \
     &
 
-for i in {1..10}; do guest_ip=$($TART ip "${tart_name}") && break || sleep 5; done
+sleep 5
 
-ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" -q
+for i in {1..10}; do guest_ip=$($TART ip ${tart_name}) && break || sleep 5; done
+
+ssh-keygen -f "${esdsa_key_path}" -t ecdsa -b 521 -P "" -q
 
 expect -f <(cat << "EOF"
 
@@ -66,7 +67,7 @@ expect {
     eof {}
 }
 EOF
-) ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
+) ${guest_ip} ${tart_user} ${tart_password} "${esdsa_key_path}" >/dev/null 2>/dev/null
 
 sleep 5
 
@@ -75,6 +76,6 @@ ssh \
     -o StrictHostKeyChecking=no \
     -o UserKnownHostsFile=/dev/null \
     -o ConnectTimeout=5s \
-    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
+    -i "${esdsa_key_path}" \
     "${tart_user}@${guest_ip}" \
     "sw_vers"

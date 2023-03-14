@@ -1,5 +1,5 @@
 name : Tart
-description: Run builds in tart virtual machines
+description: Execute Buildkite steps inside ephemeral, high performance Tart virtual machines.
 author: https://github.com/aaronburchfield
 requirements:
   - expect
