@@ -21,7 +21,5 @@ configuration:
     debug:
       type: string
       description: "Enable command output from tart plugin"
-  required:
-    - image
 
   additionalProperties: false
