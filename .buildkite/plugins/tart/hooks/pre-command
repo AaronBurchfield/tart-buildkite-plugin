@@ -12,8 +12,9 @@ tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
 tart_password="${BUILDKITE_PLUGIN_TART_PASSWORD:-admin}"
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 
+script_root=$(dirname -- "$(readlink -f -- "$0")")
+checkout_path="${BUILDKITE_BUILD_CHECKOUT_PATH:-}"
 
-PWD=$(dirname -- "$(readlink -f -- "$0")")
 
 hooks_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -39,7 +40,37 @@ guest_ip=$($TART ip "${tart_name}")
 
 /usr/bin/ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" -q
 
-"${PWD}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
+expect -f <(cat << "EOF"
+
+lassign $argv ip user password keypath
+
+set timeout 15
+
+spawn ssh-copy-id \
+    -f \
+    -i "${keypath}" \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null \
+    -o ConnectTimeout=5s \
+    -o PreferredAuthentications=password \
+    "${user}@${ip}"
+
+expect {
+    -re ".*assword:.*" {
+        send "$password\r"
+        exp_continue
+    }
+
+    -re ".*ERROR.*" {
+        exit 1
+    }
+
+    eof {}
+}
+EOF
+) ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa"
+
+# "${script_root}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
 
 sleep 300
 
