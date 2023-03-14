@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -euxo pipefail
+if [[ "${BUILDKITE_PLUGIN_TART_CLEANUP:-false}" =~ ^(true|on|1)$ ]]; then
+    set -euxo pipefail
+fi
 
 tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
 tart_cpus=2
@@ -23,4 +25,4 @@ ssh \
     -o ConnectTimeout=5s \
     -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
     "${tart_user}@${guest_ip}" \
-    "pushd \"${workspace}\" && ${command}; popd"
+    "pushd \"${workspace}\"; ${command}; popd"

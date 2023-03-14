@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# set -euxo pipefail
-# set -x
+if [[ "${BUILDKITE_PLUGIN_TART_CLEANUP:-false}" =~ ^(true|on|1)$ ]]; then
+    set -euxo pipefail
+fi
 
 default_tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
 
