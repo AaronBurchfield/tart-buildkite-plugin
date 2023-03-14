@@ -21,4 +21,4 @@ ssh \
     -o ConnectTimeout=5s \
     -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
     "${tart_user}@${guest_ip}" \
-    "pushd \"${workspace}\"; ${command}; popd"
+    "pushd \"${workspace}\"; ${command}"
