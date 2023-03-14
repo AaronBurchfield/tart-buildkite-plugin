@@ -28,6 +28,7 @@ $TART set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
 
 nohup $TART run \
     --no-graphics \
+    --net-softnet \
     --dir=workspace:"${checkout_path}" \
     "${tart_name}" \
     >/dev/null 2>/dev/null \
