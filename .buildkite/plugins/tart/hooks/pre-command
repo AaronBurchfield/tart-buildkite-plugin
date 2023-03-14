@@ -13,6 +13,9 @@ tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 
 
 PWD=$(dirname -- "$(readlink -f -- "$0")")
+
+hooks_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 TART="/Applications/tart.app/Contents/MacOS/tart"
 
 if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
@@ -29,12 +32,37 @@ $TART set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
     "${tart_name}" \
     &
 
-sleep 20
+sleep 10
 
 guest_ip=$($TART ip "${tart_name}")
 
 ssh-keygen -f "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" -t ecdsa -b 521 -P "" -q
-"${PWD}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
+
+/usr/bin/expect -c '
+spawn ssh-copy-id \
+    -f \
+    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null \
+    -o ConnectTimeout=5s \
+    -o PreferredAuthentications=password \
+    "${tart_user}@${guest_ip}"
+
+expect {
+    -re ".*assword:.*" {
+        send "${tart_password}\r"
+        exp_continue
+    }
+
+    -re ".*ERROR.*" {
+        exit 1
+    }
+
+    eof {}
+}
+'
+
+# "${PWD}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
 
 sleep 3
 
