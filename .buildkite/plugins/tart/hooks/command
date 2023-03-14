@@ -4,6 +4,7 @@ if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
     set -euxo pipefail
 fi
 
+tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 command="${BUILDKITE_COMMAND:-sw_vers}"
 

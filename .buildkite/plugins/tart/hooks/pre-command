@@ -16,8 +16,6 @@ tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
 script_root=$(dirname -- "$(readlink -f -- "$0")")
 checkout_path="${BUILDKITE_BUILD_CHECKOUT_PATH:-}"
 
-hooks_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
 TART="/Applications/tart.app/Contents/MacOS/tart"
 
 if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
