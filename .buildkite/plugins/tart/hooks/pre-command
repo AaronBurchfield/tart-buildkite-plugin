@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set -euxo pipefail
-set -x
+# set -x
 
 default_tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
 
@@ -68,11 +68,11 @@ expect {
     eof {}
 }
 EOF
-) ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa"
+) ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
 
 # "${script_root}/copy-ssh-key.sh" ${guest_ip} ${tart_user} ${tart_password} "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" >/dev/null 2>/dev/null
 
-sleep 300
+sleep 5
 
 ssh \
     -o StrictHostKeyChecking=no \

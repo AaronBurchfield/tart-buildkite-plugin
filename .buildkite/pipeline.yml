@@ -7,6 +7,6 @@ steps:
     plugins:
       - ./.buildkite/plugins/tart:
           image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
-          cleanup: false
+          # cleanup: false
     agents:
       tart: "true"
