@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
+if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" == "true" ]]; then
     set -x
 fi
 
