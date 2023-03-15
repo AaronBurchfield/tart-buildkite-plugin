@@ -7,4 +7,4 @@ steps:
       # do mac things...
       uptime
       sw_vers
-      sysctl hw.model hw.ncpu hw.optional.arm64
+      sysctl kern.version kern.hv_support
