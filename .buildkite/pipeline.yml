@@ -1,19 +1,9 @@
 steps:
-  - label: ":wave:"
+  - label: ":wave: :apple:"
     agents:
+      queue: "macos"
       tart: "true"
-      queue: "mac"
     parallelism: 5
     command: |
-      pwd
-      ls -la
-      uptime
-      whoami
-      curl -L https://github.com/autopkg/autopkg/releases/download/v2.7.2/autopkg-2.7.2.pkg -o /tmp/autopkg.pkg
-      sudo installer -pkg /tmp/autopkg.pkg -tgt /
-      /usr/local/bin/autopkg version
-      /usr/local/bin/autopkg repo-add autopkg/recipes
-      /usr/local/bin/autopkg run GoogleChrome.pkg
-    plugins:
-      - ./.buildkite/plugins/tart:
-          cpus: 4
+    # ... do mac things
+    sw_vers
