@@ -24,6 +24,7 @@ if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
 fi
 
 # Create our guest and configure cpu and memory
+tart pull "${tart_source}"
 tart clone "${tart_source}" "${tart_name}"
 tart set "${tart_name}" --cpu "${tart_cpus}" --memory "${tart_memory}"
 

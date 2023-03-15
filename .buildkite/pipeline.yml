@@ -9,4 +9,4 @@ steps:
     command: |
       uptime
       sw_vers
-      system_profiler SPHardwareDataType -json
+      sysctl hw.model hw.ncpu
