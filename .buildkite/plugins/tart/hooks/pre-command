@@ -42,9 +42,7 @@ for i in {1..60}; do guest_ip=$(tart ip ${tart_name}) && break || sleep 1; done
 # Generate and install an ssh key for running commands later
 ssh-keygen -f "${tart_key}" -t ecdsa -b 521 -P "" -q
 expect -f <(cat << "EOF"
-
 lassign $argv ip user password keypath
-
 set timeout 15
 
 spawn ssh-copy-id \

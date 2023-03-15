@@ -8,6 +8,6 @@ steps:
       sw_vers
       sysctl hw.model hw.ncpu
     plugins:
-        - ./.buildkite/plugins/tart:
-            image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
-            cpus: 4
+      - ./.buildkite/plugins/tart:
+          image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
+          cpus: 4
