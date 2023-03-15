@@ -7,4 +7,4 @@ steps:
       # do mac things...
       uptime
       sw_vers
-      sysctl kern.version kern.hv_support
+      system_profiler SPHardwareDataType -json
