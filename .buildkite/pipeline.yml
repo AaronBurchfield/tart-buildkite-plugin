@@ -7,6 +7,7 @@ steps:
         - ./.buildkite/plugins/tart:
             cpus: 4
     command: |
+      : do mac things...
       uptime
       sw_vers
       sysctl hw.model hw.ncpu
