@@ -5,5 +5,5 @@ steps:
       tart: "true"
     parallelism: 5
     command: |
-    # ... do mac things
-    sw_vers
+      # ... do mac things
+      sw_vers
