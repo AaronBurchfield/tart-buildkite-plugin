@@ -3,8 +3,10 @@ steps:
     agents:
       queue: "macos"
       tart: "true"
+    plugins:
+        - ./.buildkite/plugins/tart:
+          cpus: 4
     command: |
-      # do mac things...
       uptime
       sw_vers
       system_profiler SPHardwareDataType -json
