@@ -3,7 +3,8 @@ steps:
     agents:
       queue: "macos"
       tart: "true"
-    parallelism: 5
     command: |
-      # ... do mac things
+      # do mac things...
+      uptime
       sw_vers
+      sysctl hw.model hw.ncpu hw.optional.arm64
