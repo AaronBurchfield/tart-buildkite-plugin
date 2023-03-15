@@ -8,6 +8,7 @@ fi
 
 tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
+tart_key="$HOME/.tart/vms/${tart_name}/workspace-key"
 command="${BUILDKITE_COMMAND:-sw_vers}"
 
 # Default path for automatic mounts
@@ -23,6 +24,6 @@ ssh \
     -o UserKnownHostsFile=/dev/null \
     -o ConnectTimeout=5s \
     -o IdentitiesOnly=yes \
-    -i "$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa" \
+    -i "${tart_key}" \
     "${tart_user}@${guest_ip}" \
     "pushd \"${workspace}\"; ${command}"

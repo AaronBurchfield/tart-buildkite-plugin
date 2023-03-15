@@ -3,10 +3,11 @@ steps:
     agents:
       queue: "macos"
       tart: "true"
-    plugins:
-        - ./.buildkite/plugins/tart:
-            cpus: 4
     command: |
       uptime
       sw_vers
       sysctl hw.model hw.ncpu
+    plugins:
+        - ./.buildkite/plugins/tart:
+            image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
+            cpus: 4

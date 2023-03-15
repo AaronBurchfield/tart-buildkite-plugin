@@ -6,16 +6,15 @@ if [[ "${BUILDKITE_PLUGIN_TART_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
     set -x
 fi
 
-default_tart_source="ghcr.io/cirruslabs/macos-ventura-base:latest"
-
-tart_source="${BUILDKITE_PLUGIN_TART_IMAGE:-$default_tart_source}"
+tart_source="${BUILDKITE_PLUGIN_TART_IMAGE:-}"
 tart_cpus="${BUILDKITE_PLUGIN_TART_CPUS:-2}"
 tart_memory="${BUILDKITE_PLUGIN_TART_MEMORY:-4096}"
 tart_user="${BUILDKITE_PLUGIN_TART_USER:-admin}"
 tart_password="${BUILDKITE_PLUGIN_TART_PASSWORD:-admin}"
 tart_name="buildkite-job-id-${BUILDKITE_JOB_ID:-tart}"
+tart_key="$HOME/.tart/vms/${tart_name}/workspace-key"
 checkout_path="${BUILDKITE_BUILD_CHECKOUT_PATH:-}"
-esdsa_key_path="$HOME/.tart/vms/${tart_name}/buildkite-workspace-ecdsa"
+
 
 # Apple forbids more than two concurrent instances of macos and enforces this in the virtualization framework
 if [[ $(ps aux | grep "[/]tart\ run" -c) -ge 2 ]]; then
@@ -41,7 +40,7 @@ nohup tart run \
 for i in {1..60}; do guest_ip=$(tart ip ${tart_name}) && break || sleep 1; done
 
 # Generate and install an ssh key for running commands later
-ssh-keygen -f "${esdsa_key_path}" -t ecdsa -b 521 -P "" -q
+ssh-keygen -f "${tart_key}" -t ecdsa -b 521 -P "" -q
 expect -f <(cat << "EOF"
 
 lassign $argv ip user password keypath
@@ -70,6 +69,6 @@ expect {
     eof {}
 }
 EOF
-) ${guest_ip} ${tart_user} ${tart_password} "${esdsa_key_path}" >/dev/null 2>/dev/null
+) ${guest_ip} "${tart_user}" "${tart_password}" "${tart_key}" >/dev/null 2>/dev/null
 
 echo "Created ${tart_name} from ${tart_source}"
