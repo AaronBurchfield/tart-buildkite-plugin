@@ -9,5 +9,5 @@ steps:
       sysctl hw.model hw.ncpu
     plugins:
       - ./.buildkite/plugins/tart:
-          image: "ghcr.io/cirruslabs/macos-ventura-base:latest"
+          image: ghcr.io/cirruslabs/macos-ventura-base:latest
           cpus: 4
